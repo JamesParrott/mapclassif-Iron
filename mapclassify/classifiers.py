@@ -6,7 +6,6 @@ import copy
 import functools
 import warnings
 
-from sklearn.cluster import KMeans
 
 
 
@@ -14,46 +13,11 @@ from sklearn.cluster import KMeans
 __author__ = "Sergio J. Rey"
 
 __all__ = [
-    "MapClassifier",
-    "quantile",
-    "BoxPlot",
-    "EqualInterval",
-    "FisherJenks",
-    "FisherJenksSampled",
-    "JenksCaspall",
-    "JenksCaspallForced",
-    "JenksCaspallSampled",
-    "HeadTailBreaks",
-    "MaxP",
-    "MaximumBreaks",
-    "NaturalBreaks",
-    "Quantiles",
-    "Percentiles",
-    "PrettyBreaks",
-    "StdMean",
-    "UserDefined",
-    "gadf",
-    "KClassifiers",
-    "CLASSIFIERS",
+
 ]
 
 CLASSIFIERS = (
-    "BoxPlot",
-    "EqualInterval",
-    "FisherJenks",
-    "FisherJenksSampled",
-    "HeadTailBreaks",
-    "JenksCaspall",
-    "JenksCaspallForced",
-    "JenksCaspallSampled",
-    "MaxP",
-    "MaximumBreaks",
-    "NaturalBreaks",
-    "Quantiles",
-    "Percentiles",
-    "PrettyBreaks",
-    "StdMean",
-    "UserDefined",
+
 )
 
 K = 5  # default number of classes in any map scheme with this as an argument
@@ -82,19 +46,21 @@ class MockNumpy(object):
         
         self.int32 = int_type or System.Int16
         self.float32 = float_type or System.Single
+        
+        self.inf = self.float32('inf')
     
     @classmethod
-    def zeros(self, dims, dtype = System.Int16):
+    def zeros(self, dims, dtype = None):
+        
+        dtype = dtype or self.int32
 
         if len(dims) == 1:
             zero = dtype(0)
             return [zero for __ in range(dims[0])]
             
-        return [cls.zeros(dims[1:], dtype) for __ in range(dims[0])] 
+        return [self.zeros(dims[1:], dtype) for __ in range(dims[0])] 
         
-    int32 = System.Int16
-    float32 = System.Single
-    inf = System.Single('inf')
+
     
     @staticmethod
     def delete(arr, index):
