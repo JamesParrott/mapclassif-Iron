@@ -1,24 +1,9 @@
-"""
-A module of classification schemes for choropleth mapping.
-"""
-import sys
+
 import copy
 import functools
 import warnings
 
 
-
-
-
-__author__ = "Sergio J. Rey"
-
-__all__ = [
-
-]
-
-CLASSIFIERS = (
-
-)
 
 K = 5  # default number of classes in any map scheme with this as an argument
 SEEDRANGE = 1000000  # range for drawing random ints from for Natural Breaks
@@ -34,25 +19,14 @@ FMT = "{:.2f}"
 class MockNumpy(object):
     
     def __init__(self, int_type = None, float_type = None):
-        if int_type is None or float_type is None:
-            try:
-                if sys.implementation.name != 'ironpython':
-                    raise ImportError
-                import System
-            except ImportError:
-                class System:
-                    Int16 = int
-                    Single = float
-        
-        self.int32 = int_type or System.Int16
-        self.float32 = float_type or System.Single
-        
+
+        self.int32 = int_type or int
+        self.float32 = float_type or float
+
         self.inf = self.float32('inf')
     
-    @classmethod
-    def zeros(self, dims, dtype = None):
-        
-        dtype = dtype or self.int32
+    
+    def zeros(self, dims, dtype = int):
 
         if len(dims) == 1:
             zero = dtype(0)
@@ -61,28 +35,12 @@ class MockNumpy(object):
         return [self.zeros(dims[1:], dtype) for __ in range(dims[0])] 
         
 
-    
     @staticmethod
     def delete(arr, index):
         return arr[:index] + arr[index+1:]
 
-    @staticmethod
-    def array(iterable):
-        return iterable
 
 
-try:
-    # Make sure we don't attempt to import numpy, even if some other 
-    # plug-in (e.g. LadyBug) has installed it for some reason 
-    # to the IronPython sys.path instead of to its own directory or venv.
-    if sys.implementation.name != 'cpython':
-        raise ImportError
-    import numpy as np  
-    HAS_NUMPY = True
-except ImportError:
-    HAS_NUMPY = False
-
-    default_mock_numpy = MockNumpy()
 
 
 
@@ -107,7 +65,7 @@ except ImportError:
 
 
 @njit("f8[:](f8[:], u2)")
-def _fisher_jenks_means_numpy(values, classes=5):
+def _fisher_jenks_means(values, classes=5):
     """
     Jenks Optimal (Natural Breaks) algorithm implemented in Python.
 
@@ -166,10 +124,10 @@ def _fisher_jenks_means_numpy(values, classes=5):
 def _fisher_jenks_means_without_numpy(
     values,
     classes=5,
-    np = default_mock_numpy
+    np = None
     ):
     """
-    As for _fisher_jenks_means_numpy above, to keep the code as far as possible
+    As for _fisher_jenks_means above, to keep the code as far as possible
     exactly the same, except with np passable in as a dependency, and with
     matrix[i, j] replaced with matrix[i][j] for speed.
 
@@ -187,12 +145,13 @@ def _fisher_jenks_means_without_numpy(
 
 
     """
-    values.sort()
+    if np is None:
+        np = MockNumpy()
+
     n_data = len(values)
     mat1 = np.zeros((n_data + 1, classes + 1), dtype=np.int32)
     mat2 = np.zeros((n_data + 1, classes + 1), dtype=np.float32)
     
-    # System.Array.Fill not suppported on Multi-dimensional arrays
     for j in range(1, classes + 1):
         mat1[1][j] = 1
         for i in range(2, n_data+1):
@@ -219,8 +178,6 @@ def _fisher_jenks_means_without_numpy(
         mat1[_l][1] = 1
         mat2[_l][1] = v
 
-#    for row in mat1:
-#        print(row)
     k = len(values)
 
     kclass = np.zeros((classes + 1,), dtype=type(values[0]))
@@ -233,9 +190,4 @@ def _fisher_jenks_means_without_numpy(
         k = int(pivot - 1)
     return np.delete(kclass, 0)
 
-
-if HAS_NUMPY:
-    _fisher_jenks_means = _fisher_jenks_means_numpy
-else:
-    _fisher_jenks_means = _fisher_jenks_means_without_numpy
 
