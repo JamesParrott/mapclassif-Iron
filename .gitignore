@@ -4,7 +4,7 @@
 dist/
 examples/notebooks/.ipynb_checkpoints/
 examples/python/
-mapclassify.egg-info/
+mapclassify_Iron.egg-info/
 mapclassify/.ropeproject/
 mapclassify/datasets/calemp/.ropeproject/
 mapclassify/tests/.ropeproject/
@@ -13,3 +13,5 @@ mapclassify/tests/.ropeproject/
 __pycache__
 /notebooks/.ipynb_checkpoints/
 *.egg-info
+.pytest_cache
+.ruff_cache
