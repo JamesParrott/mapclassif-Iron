@@ -1,10 +1,17 @@
-import numpy as np
-import pytest
+import unittest
 import functools
 
 
 from . import classifiers
 from .datasets import calemp
+
+try:
+    import numpy as np
+
+    HAS_NUMPY = True
+except ImportError:
+    HAS_NUMPY = False
+
 
 try:
     from numba import njit
@@ -23,23 +30,26 @@ except ImportError:
 
         return decorator_njit
 
-        
 
 
-class Testfisher_jenks_meanss:
-    def setup_method(self):
-        self.V = sorted(load_example())
+class Testfisher_jenks_meanss(unittest.TestCase):
+    
+    @classmethod
+    def setUpClass(cls):
+        cls.V = sorted(calemp.load())
 
     def _assert_func_reproduces_mapclassify_test_case(self, func):
 
         result = func(self.V)
 
-        expected = [75.29, 192.05, 370.5, 722.85, 4111.45]
+        expecteds = [75.29, 192.05, 370.5, 722.85, 4111.45]
         
-        assert result == pytest.approx(expected)
+        for actual, expected in zip(result, expecteds):
+            self.assertAlmostEqual(actual, expected)
 
-    
+    @unittest.skipUnless(HAS_NUMPY, "Requires numpy")    
     def test_mapclassify_fisher_jenks_means(self):
+        import numpy as np
         self._assert_func_reproduces_mapclassify_test_case(
             lambda y: _fisher_jenks_means(np.asarray(y))
         )
@@ -51,13 +61,6 @@ class Testfisher_jenks_meanss:
 
 
 
-
-def load_example():
-    """
-    Helper function for doc tests
-    """
-
-    return calemp.load()
 
 
 
@@ -116,3 +119,4 @@ def _fisher_jenks_means(values, classes=5):
         kclass[countNum - 1] = values[_id]
         k = int(pivot - 1)
     return np.delete(kclass, 0)
+
