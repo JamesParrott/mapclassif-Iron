@@ -17,27 +17,22 @@ FMT = "{:.2f}"
 
 
 class MockNumpy(object):
-    
-    def __init__(self, int_type = None, float_type = None):
-
+    def __init__(self, int_type=None, float_type=None):
         self.int32 = int_type or int
         self.float32 = float_type or float
 
-        self.inf = self.float32('inf')
-    
-    
-    def zeros(self, dims, dtype = int):
+        self.inf = self.float32("inf")
 
+    def zeros(self, dims, dtype=int):
         if len(dims) == 1:
             zero = dtype(0)
             return [zero for __ in range(dims[0])]
-            
-        return [self.zeros(dims[1:], dtype) for __ in range(dims[0])] 
-        
+
+        return [self.zeros(dims[1:], dtype) for __ in range(dims[0])]
 
     @staticmethod
     def delete(arr, index):
-        return arr[:index] + arr[index+1:]
+        return arr[:index] + arr[index + 1 :]
 
 
 
