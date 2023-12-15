@@ -61,8 +61,8 @@ all = ["numba[speedups,dev,docs,tests]"]
 
 [tool.setuptools.packages.find]
 include = [
-    "mapclassify",
-    "mapclassify.*",
+    "mapclassif_Iron",
+    "mapclassif_Iron.*",
 ]
 
 [tool.black]
@@ -92,10 +92,10 @@ ignore = [
     "N999",
     "UP007"
 ]
-exclude = ["mapclassify/tests/*", "docs/*"]
+exclude = ["mapclassif_Iron/tests/*", "docs/*"]
 
 [tool.coverage.run]
-source = ["./mapclassify"]
+source = ["./mapclassif_Iron"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -106,4 +106,4 @@ exclude_lines = [
     "except ImportError",
 ]
 ignore_errors = true
-omit = ["mapclassify/tests/*", "docs/conf.py"]
+omit = ["mapclassif_Iron/tests/*", "docs/conf.py"]
