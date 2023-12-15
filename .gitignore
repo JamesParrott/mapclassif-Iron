@@ -5,9 +5,9 @@ dist/
 examples/notebooks/.ipynb_checkpoints/
 examples/python/
 mapclassify_Iron.egg-info/
-mapclassify/.ropeproject/
-mapclassify/datasets/calemp/.ropeproject/
-mapclassify/tests/.ropeproject/
+mapclassify_Iron/.ropeproject/
+mapclassify_Iron/datasets/calemp/.ropeproject/
+mapclassify_Iron/tests/.ropeproject/
 .DS_Store
 .vscode/settings.json
 __pycache__
