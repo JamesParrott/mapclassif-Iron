@@ -1,7 +1,6 @@
 # mapclassif-Iron:  _fisher_jenks_means for IronPython, and other environments without numpy.
 
-This project is included as a dependency in another project (sDNA_GH) by static linking the code 
-(copy and pasting), which targets an environment (IronPython in Grasshopper) in which 
+This project is included as a dependency in another project (sDNA_GH) which targets an environment (IronPython in Grasshopper) in which 
 numpy, pandas and SciKitlearn etc. are not supported.  Therefore those dependencies, and everything 
 that uses them, have been removed from mapclassif-Iron.
 

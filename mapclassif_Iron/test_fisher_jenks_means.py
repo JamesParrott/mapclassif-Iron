@@ -32,7 +32,7 @@ except ImportError:
 
 
 
-class Testfisher_jenks_meanss(unittest.TestCase):
+class Testfisher_jenks_means(unittest.TestCase):
     
     @classmethod
     def setUpClass(cls):

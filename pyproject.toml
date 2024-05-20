@@ -1,12 +1,12 @@
 [build-system]
-requires = ["setuptools>=61.0", "setuptools_scm[toml]>=6.2"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools_scm]
 
 [project]
 name = "mapclassif_Iron"
-dynamic = ["version"]
+version="2.6.1"
 maintainers = [
     {name = "James Parrott", email = "james.parrott@proton.me"},
 ]
@@ -50,14 +50,9 @@ Repository = "https://github.com/JamesParrott/mapclassif-Iron"
 [project.optional-dependencies]
 
 tests = [
-    "geopandas",
-    "libpysal",
-    "matplotlib",
+    "numpy",
     "pytest",
-    "pytest-cov",
-    "pytest-xdist",
 ]
-all = ["numba[speedups,dev,docs,tests]"]
 
 [tool.setuptools.packages.find]
 include = [
