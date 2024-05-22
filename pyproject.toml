@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mapclassif_Iron"
-version="2.6.1"
+version="2.6.3"
 maintainers = [
     {name = "James Parrott", email = "james.parrott@proton.me"},
 ]
@@ -56,6 +56,12 @@ tests = [
 include = [
     "mapclassif_Iron",
     "mapclassif_Iron.*",
+]
+
+[tool.setuptools.package-data]
+mapclassif_Iron = [
+    "datasets/calemp/calempdensity.csv",
+    "datasets/calemp/README.md",
 ]
 
 [tool.black]
